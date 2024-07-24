@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import { AppWrapper } from "@/hooks/AppContext";
 import "./globals.css";
 import { Metadata } from "next";
@@ -21,8 +22,9 @@ const Layout = ({ children }: LayoutProps) => {
         <AppWrapper>
           <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="flex-grow reveal">{children}</main>
+            <main className="flex-grow reveal bg-gray-100">{children}</main>
             <Footer />
+            <ScrollToTop />
           </div>
         </AppWrapper>
       </body>

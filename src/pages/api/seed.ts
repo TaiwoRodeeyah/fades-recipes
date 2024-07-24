@@ -1,46 +1,35 @@
-// import { NextApiRequest, NextApiResponse } from "next";
-// import { faker } from "@faker-js/faker";
-// import clientPromise from "../../lib/mongodb";
+import { MongoClient } from "mongodb";
+import { NextApiRequest, NextApiResponse } from "next";
+import clientPromise from "../../lib/mongodb";
+import { recipes } from "@/data/recipes";
 
-// export default async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse
-// ) {
-//   const client = await clientPromise;
-//   const db = client.db();
+const uri = process.env.MONGODB_URI!;
+const client = new MongoClient(uri);
 
-//   // Clear existing data
-//   await db.collection("recipes").deleteMany({});
-//   await db.collection("blogs").deleteMany({});
-//   await db.collection("contacts").deleteMany({});
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "PUT") {
+    try {
+    const client = await clientPromise;
+    const db = client.db();
+      const recipesCollection = db.collection("recipes");
 
-//   // Seed recipes
-//   const recipes = Array.from({ length: 10 }).map(() => ({
-//     name: faker.lorem.words(3),
-//     short_description: faker.lorem.sentence(),
-//     category: faker.lorem.word(),
-//     calories: faker.datatype.number({ min: 100, max: 500 }),
-//     time: faker.datatype.number({ min: 10, max: 60 }),
-//     ingredients: Array.from({ length: 5 }).map(() => faker.lorem.word()),
-//     equipments: Array.from({ length: 3 }).map(() => faker.lorem.word()),
-//     tags: Array.from({ length: 3 }).map(() => faker.lorem.word()),
-//     youtube: faker.internet.url(),
-//     content: faker.lorem.paragraphs(3),
-//     cook: faker.name.findName(),
-//     image: faker.image.food(),
-//   }));
+      // Clear existing data
+      await recipesCollection.deleteMany({});
 
-//   // Seed blogs
-//   const blogs = Array.from({ length: 10 }).map(() => ({
-//     image: faker.image.imageUrl(),
-//     title: faker.lorem.sentence(),
-//     date: faker.date.recent(),
-//     content: faker.lorem.paragraphs(3),
-//     cook: faker.name.findName(),
-//   }));
+      // Insert new recipes
+      await recipesCollection.insertMany(recipes);
 
-//   await db.collection("recipes").insertMany(recipes);
-//   await db.collection("blogs").insertMany(blogs);
-
-//   res.status(201).json({ message: "Database seeded successfully." });
-// }
+      res.status(200).json({ message: "Database seeded successfully!" });
+    } catch (error) {
+      console.error("Error seeding database:", error);
+      res.status(500).json({ message: "Failed to seed database" });
+    } finally {
+      await client.close();
+    }
+  } else {
+    res.status(405).json({ message: "Method not allowed" });
+  }
+}

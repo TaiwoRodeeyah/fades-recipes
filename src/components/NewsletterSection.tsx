@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ScrollReveal from "scrollreveal";
+import { FaUser, FaEnvelope } from "react-icons/fa";
 import newsletterBg from "../../public/assets/images/newsletter_bg.jpg";
 
 const NewsletterSection = () => {
@@ -16,18 +17,36 @@ const NewsletterSection = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
-  const handleSubscribe = async (e : any) => {
+  const handleSubscribe = async (e: any) => {
     e.preventDefault();
-    const response = await fetch("/api/newsletter", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, name }),
-    });
-    const data = await response.json();
-    setMessage(data.message);
+    if (!name || !email) {
+      setMessage("Both fields are required");
+      setIsError(true);
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+      return;
+    }
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, name }),
+      });
+      const data = await response.json();
+      setMessage(data.message);
+      setIsError(false);
+    } catch (error) {
+      setMessage("Subscription failed. Please try again.");
+      setIsError(true);
+    }
+    setTimeout(() => {
+      setMessage("");
+    }, 5000);
   };
 
   return (
@@ -48,28 +67,44 @@ const NewsletterSection = () => {
             onSubmit={handleSubscribe}
             className="flex flex-col items-center"
           >
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="mb-4 p-3 max-w-[90%] w-80 md:w-96 rounded-lg text-black"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="mb-4 p-3 max-w-[90%] w-80 md:w-96 rounded-lg text-black"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <div className="relative mb-4 max-w-[90%] w-80 md:w-96">
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="p-3 w-full bg-gray-800 text-white rounded-lg pl-12"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-[#c06c84] p-2 rounded-full text-white" />
+            </div>
+            <div className="relative mb-4 max-w-[90%] w-80 md:w-96">
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="p-3 w-full bg-gray-800 text-white rounded-lg pl-12"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-[#c06c84] p-2 rounded-full text-white" />
+            </div>
             <button
               type="submit"
-              className="bg-[#c06c84] p-3 max-w-[90%] w-80 md:w-96 rounded-lg hover:bg-c06c84 text-white"
+              className="bg-[#c06c84] p-3 max-w-[90%] w-80 md:w-96 rounded-lg hover:bg-[#b15872] text-white"
             >
               Subscribe
             </button>
           </form>
-          {message && <p className="mt-4">{message}</p>}
+          {message && (
+            <div className="w-full flex items-center justify-center">
+              <p
+                className={`mt-4 max-w-[90%] w-80 px-2 rounded ${
+                  isError ? "bg-red-500" : "bg-green-500"
+                }`}
+              >
+                {message}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

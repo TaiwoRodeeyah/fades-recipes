@@ -32,6 +32,10 @@ html {
   background-color: #C06C84;
 }
 
+.bg-secondary {
+  background-color: #1f2937;
+}
+
 .text-c06c84 {
   color: #C06C84;
 }

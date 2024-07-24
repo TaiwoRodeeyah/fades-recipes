@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import ScrollReveal from "scrollreveal";
-import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/logo.png";
+import categories from "@/data/categories";
 
 const Footer = () => {
   useEffect(() => {
@@ -23,8 +24,9 @@ const Footer = () => {
       reset: false,
     });
   }, []);
+
   return (
-    <footer className="bg-gray-800 shadow-lg text-white py-10">
+    <footer className="bg-gray-800 text-white py-10">
       <div className="container mx-auto text-center">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
@@ -53,10 +55,15 @@ const Footer = () => {
               Categories
             </h3>
             <nav className="flex flex-col space-y-2 footer-navbox">
-              <Link href="/category/appetizers">Appetizers</Link>
-              <Link href="/category/main-course">Main Course</Link>
-              <Link href="/category/desserts">Desserts</Link>
-              <Link href="/category/drinks">Drinks</Link>
+              {categories.length > 0 ? (
+                categories.map((category) => (
+                  <Link key={category.id} href={`/category/${category.id}`}>
+                    {category.name}
+                  </Link>
+                ))
+              ) : (
+                <p>No categories available</p>
+              )}
             </nav>
           </div>
         </div>

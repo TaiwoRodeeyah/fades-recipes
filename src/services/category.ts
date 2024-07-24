@@ -2,8 +2,8 @@ import categories from "@/data/categories";
 import { Category } from "../../types";
 
 export default class CategoryService {
- getCategory(id: string) : Category | undefined {
-    return categories.find(c => c.id === id);
+ getCategory(slug: string) : Category | undefined {
+    return categories.find(c => c.slug === slug);
  }   
 
  getCategoryName(id: string) : String {

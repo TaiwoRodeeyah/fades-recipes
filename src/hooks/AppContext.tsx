@@ -13,7 +13,11 @@ import { IRecipe } from "@/models/Recipe";
 interface AppState {
   recipes: IRecipe[];
   blogs: IBlog[];
-  isLoading: boolean;
+  isBlogLoading: boolean;
+  isBlogsLoading: boolean;
+  isRecipeLoading: boolean;
+  isRecipesLoading: boolean;
+  isSearchLoading: boolean;
   fetchSingleRecipe: Function;
   fetchSingleBlog: Function;
   searchRecipes: Function;
@@ -23,7 +27,11 @@ interface AppState {
 const defaultState: AppState = {
   recipes: [],
   blogs: [],
-  isLoading: true,
+  isBlogLoading: true,
+  isBlogsLoading: true,
+  isRecipeLoading: true,
+  isRecipesLoading: true,
+  isSearchLoading: true,
   fetchSingleRecipe: () => {},
   fetchSingleBlog: () => {},
   searchRecipes: () => {},
@@ -39,65 +47,69 @@ interface AppWrapperProps {
 export function AppWrapper({ children }: AppWrapperProps) {
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
   const [blogs, setBlogs] = useState<IBlog[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isBlogLoading, setIsBlogLoading] = useState(true);
+  const [isBlogsLoading, setIsBlogsLoading] = useState(true);
+  const [isRecipeLoading, setIsRecipeLoading] = useState(true);
+  const [isRecipesLoading, setIsRecipesLoading] = useState(true);
+  const [isSearchLoading, setIsSearchLoading] = useState(true);
 
   const fetchRecipes = async () => {
-    setIsLoading(true);
+    setIsRecipesLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes`
     );
     const data = await response.json();
     setRecipes(data);
-    setIsLoading(false);
+    setIsRecipesLoading(false);
   };
 
   const fetchBlogs = async () => {
-    setIsLoading(true);
+    setIsBlogsLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`
     );
     const data = await response.json();
     setBlogs(data);
-    setIsLoading(false);
+    setIsBlogsLoading(false);
   };
 
   const fetchSingleRecipe = async (id: string) => {
-    setIsLoading(true);
+    setIsRecipeLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/${id}`
     );
     const data = await response.json();
-    setIsLoading(false);
+    setIsRecipeLoading(false);
     return data;
   };
 
   const fetchSingleBlog = async (id: string) => {
-    setIsLoading(true);
+    setIsBlogLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}`
     );
     const data = await response.json();
-    setIsLoading(false);
+    setIsBlogLoading(false);
     return data;
   };
 
   const searchRecipes = async (query: string) => {
-    setIsLoading(true);
+    setIsSearchLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/search?query=${query}`
     );
     const data = await response.json();
-    setIsLoading(false);
+    setIsSearchLoading(false);
     return data;
   };
 
   const searchBlogs = async (query: string) => {
-    setIsLoading(true);
+    setIsSearchLoading(true);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/search?query=${query}`
     );
     const data = await response.json();
-    setIsLoading(false);
+    setIsSearchLoading(false);
     return data;
   };
 
@@ -109,7 +121,11 @@ export function AppWrapper({ children }: AppWrapperProps) {
   const state: AppState = {
     recipes,
     blogs,
-    isLoading,
+    isBlogLoading,
+    isBlogsLoading,
+    isRecipeLoading,
+    isRecipesLoading,
+    isSearchLoading,
     fetchSingleRecipe,
     fetchSingleBlog,
     searchRecipes,

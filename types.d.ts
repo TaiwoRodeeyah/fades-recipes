@@ -4,6 +4,7 @@ import { IRecipe } from '@/models/Recipe';
 type Category = {
     id: string;
     name: string;
+    slug: string;
     image: string;
 }
 

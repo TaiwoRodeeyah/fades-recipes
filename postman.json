@@ -268,7 +268,7 @@
         {
           "name": "Seed Database",
           "request": {
-            "method": "GET",
+            "method": "PUT",
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/seed",
