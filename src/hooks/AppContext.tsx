@@ -1,7 +1,5 @@
 "use client";
 
-import { IBlog } from "@/models/Blog";
-import { IRecipe } from "@/models/Recipe";
 import {
   createContext,
   useContext,
@@ -9,15 +7,17 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { IBlog } from "@/models/Blog";
+import { IRecipe } from "@/models/Recipe";
 
 interface AppState {
-  recipes : IRecipe[];
-  blogs : IBlog[];
-  isLoading : boolean;
-  fetchSingleRecipe : Function;
-  fetchSingleBlog : Function;
-  searchRecipes : Function;
-  searchBlogs : Function;
+  recipes: IRecipe[];
+  blogs: IBlog[];
+  isLoading: boolean;
+  fetchSingleRecipe: Function;
+  fetchSingleBlog: Function;
+  searchRecipes: Function;
+  searchBlogs: Function;
 }
 
 const defaultState: AppState = {
@@ -37,74 +37,74 @@ interface AppWrapperProps {
 }
 
 export function AppWrapper({ children }: AppWrapperProps) {
-    const [recipes, setRecipes] = useState([]);
-    const [blogs, setBlogs] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const fetchRecipes = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes`
-      );
-      const data = await response.json();
-      setRecipes(data);
-      setIsLoading(false);
-    };
+  const fetchRecipes = async () => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes`
+    );
+    const data = await response.json();
+    setRecipes(data);
+    setIsLoading(false);
+  };
 
-    const fetchBlogs = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`
-      );
-      const data = await response.json();
-      setBlogs(data);
-      setIsLoading(false);
-    };
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs`
+    );
+    const data = await response.json();
+    setBlogs(data);
+    setIsLoading(false);
+  };
 
-    const fetchSingleRecipe = async (id : any) => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/${id}`
-      );
-      const data = await response.json();
-      setIsLoading(false);
-      return data;
-    };
+  const fetchSingleRecipe = async (id: string) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/${id}`
+    );
+    const data = await response.json();
+    setIsLoading(false);
+    return data;
+  };
 
-    const fetchSingleBlog = async (id : any) => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}`
-      );
-      const data = await response.json();
-      setIsLoading(false);
-      return data;
-    };
+  const fetchSingleBlog = async (id: string) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/${id}`
+    );
+    const data = await response.json();
+    setIsLoading(false);
+    return data;
+  };
 
-    const searchRecipes = async (query : string) => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/search?query=${query}`
-      );
-      const data = await response.json();
-      setIsLoading(false);
-      return data;
-    };
+  const searchRecipes = async (query: string) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/recipes/search?query=${query}`
+    );
+    const data = await response.json();
+    setIsLoading(false);
+    return data;
+  };
 
-    const searchBlogs = async (query : string) => {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/search?query=${query}`
-      );
-      const data = await response.json();
-      setIsLoading(false);
-      return data;
-    };
+  const searchBlogs = async (query: string) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blogs/search?query=${query}`
+    );
+    const data = await response.json();
+    setIsLoading(false);
+    return data;
+  };
 
-    useEffect(() => {
-      fetchRecipes();
-      fetchBlogs();
-    }, []);
+  useEffect(() => {
+    fetchRecipes();
+    fetchBlogs();
+  }, []);
 
   const state: AppState = {
     recipes,

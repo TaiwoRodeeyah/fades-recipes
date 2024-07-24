@@ -1,4 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface IRecipe {
+  _id?: ObjectId;
   name: string;
   short_description: string;
   category: string;
