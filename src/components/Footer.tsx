@@ -2,27 +2,29 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import categories from "@/data/categories";
 
 const Footer = () => {
   useEffect(() => {
-    ScrollReveal().reveal(".footer-section", {
-      origin: "top",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
-    ScrollReveal().reveal(".footer-navbox", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
+    if (typeof window !== "undefined") {
+      const ScrollReveal = require("scrollreveal").default;
+      ScrollReveal().reveal(".footer-section", {
+        origin: "top",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+      ScrollReveal().reveal(".footer-navbox", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+    }
   }, []);
 
   return (

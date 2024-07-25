@@ -1,19 +1,20 @@
 import categories from "@/data/categories";
 import { CategoryBoxProp } from "../../types";
-import { Icon } from "iconsax-react";
 import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 import { FaArrowRight } from "react-icons/fa";
 
 const CategoryBox = ({ category }: CategoryBoxProp) => {
   useEffect(() => {
-    ScrollReveal().reveal(".categoryBox", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
+    if (typeof window !== "undefined") {
+      const ScrollReveal = require("scrollreveal").default;
+      ScrollReveal().reveal(".categoryBox", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+    }
   }, []);
 
   return (

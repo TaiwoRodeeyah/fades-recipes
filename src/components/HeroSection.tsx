@@ -1,16 +1,18 @@
 import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 import hero from "../../public/assets/images/fade_hero.jpg";
 
 const HeroSection = () => {
   useEffect(() => {
-    ScrollReveal().reveal(".hero-text", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
+    if (typeof window !== "undefined") {
+      const ScrollReveal = require("scrollreveal").default;
+      ScrollReveal().reveal(".hero-text", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+    }
   }, []);
 
   return (

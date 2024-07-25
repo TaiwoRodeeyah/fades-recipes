@@ -1,18 +1,20 @@
 import { RecentlyAddedRecipesProp, RecipeBoxProp } from "../../types";
 import CategoryService from "@/services/category";
 import { useEffect } from "react";
-import ScrollReveal from "scrollreveal";
 import { FaArrowRight, FaPlayCircle } from "react-icons/fa";
 
 const RecipeBox = ({ recipe }: RecipeBoxProp) => {
   useEffect(() => {
-    ScrollReveal().reveal(".recipeBox", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
+    if (typeof window !== "undefined") {
+      const ScrollReveal = require("scrollreveal").default;
+      ScrollReveal().reveal(".recipeBox", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+    }
   }, []);
 
   return (
@@ -22,8 +24,13 @@ const RecipeBox = ({ recipe }: RecipeBoxProp) => {
     >
       <div className="absolute top-0 right-0 p-2 flex items-center justify-between space-x-2 w-full">
         {recipe.youtube ? (
-          <FaPlayCircle size={28} className="text-white text-xl float-left ml-1 opacity-0 transform -translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-        ) : <span></span> }
+          <FaPlayCircle
+            size={28}
+            className="text-white text-xl float-left ml-1 opacity-0 transform -translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+          />
+        ) : (
+          <span></span>
+        )}
         <span className="bg-secondary text-white px-2 py-1 rounded">
           {new CategoryService().getCategoryName(recipe.category)}
         </span>

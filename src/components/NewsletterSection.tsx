@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import ScrollReveal from "scrollreveal";
 import { FaUser, FaEnvelope } from "react-icons/fa";
 import newsletterBg from "../../public/assets/images/newsletter_bg.jpg";
 
 const NewsletterSection = () => {
   useEffect(() => {
-    ScrollReveal().reveal(".newsletter-text", {
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
+    if (typeof window !== "undefined") {
+      const ScrollReveal = require("scrollreveal").default;
+      ScrollReveal().reveal(".newsletter-text", {
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+    }
   }, []);
 
   const [email, setEmail] = useState("");
