@@ -9,7 +9,7 @@ import LatestFromBlog from "@/components/LatestFromBlog";
 import NewsletterSection from "@/components/NewsletterSection";
 
 const Home = () => {
-  const { recipes, blogs, isLoading } = useAppContext();
+  const { recipes, blogs } = useAppContext();
 
   return (
     <div className="min-h-screen">
