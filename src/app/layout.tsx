@@ -6,9 +6,27 @@ import { AppWrapper } from "@/hooks/AppContext";
 import "./globals.css";
 import { Metadata } from "next";
 
+import icon from "../../public/icon.png";
+import banner from "../../public/banner.png";
+
 export const metadata: Metadata = {
+  applicationName: "Fade's Recipes",
   title: "Fade's Recipes",
   description: "Welcome to Fade's Recipes",
+  keywords: "recipes, food, cooking, baking, blog, recipe",
+  themeColor: "#C06C84",
+  icons: icon.src,
+  openGraph: {
+    type: "website",
+    title: "Fade's Recipes",
+    description: "Welcome to Fade's Recipes",
+    siteName: "Fade's Recipes",
+    images: [
+      {
+        url: banner.src,
+      },
+    ],
+  },
 };
 
 interface LayoutProps {
